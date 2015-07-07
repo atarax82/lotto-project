@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+	{{ block.super }} |
+	{% if form_title %}
+		{{ form_title  }}
+	{% else %}
+		{{ page_title  }}
+	{% endif %}
+{% endblock %}
+
+
+{% block content %}
+	<div class="col-md-8 col-md-offset-2">
+		<h1>{{ form_title }}</h1>
+		
+		{% if form_text %}
+			<p class="form-text">{{ form_text }}</p>
+			<hr>
+		{% endif %}
+		
+		<form method="POST" role="form" autocomplete="off">{% csrf_token %}
+			{% include 'form-snippet.html' %}
+		</form>
+	<br><br><br><br>
+	</div>
+	
+{% endblock %}

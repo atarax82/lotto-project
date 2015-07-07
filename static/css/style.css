@@ -1,0 +1,56 @@
+.disabled-text {
+	color: #999;
+}
+.bold {
+	font-weight: bold;
+}
+
+.glyphicon-delete-command {
+	color: red;
+	cursor: pointer;
+}
+.glyphicon-edit-command {
+	color: blue;
+	cursor: pointer;
+}
+.autdated-win-color {
+	color: green;
+}
+
+h1 {
+	margin-bottom: 0.8em;
+}
+
+/* Form */
+form {
+	margin-top: 2em;
+}
+
+form .form-errors {
+	color: #A94442;
+}
+form .form-errors > p {
+	font-weight: bold;
+	padding-bottom: 0px;
+	margin-bottom: 0.3em;
+}
+
+form .help-text {
+	font-style: italic;
+	margin-top: 0.3em;
+	margin-bottom: 0.5em;
+}
+
+form label.required:before {
+	content: '*';
+	color: red;
+}
+
+.form-text {
+	margin: 2em 0em 2.5em;
+}
+
+.error, .errorlist {
+	color: #A94442 !important;
+}
+

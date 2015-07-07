@@ -1,0 +1,62 @@
+{% load form_filters %}
+
+<!-- The text and password here are to prevent FF from auto filling my login credentials because it ignores autocomplete="off"-->
+<input type="text" style="display:none">
+<input type="password" style="display:none">
+
+{# Include the hidden fields #}
+{% for hidden in form.hidden_fields %}
+	{% csrf_token %}
+	{{ hidden }}
+{% endfor %}
+
+{# Include the visible fields #}
+
+
+{% if form.errors %}
+	{% if form.non_field_errors %}
+		<p class="error">Form has errors:</p>
+		{{ form.non_field_errors }}
+	{% else %}
+		<p  class="error">Form has errors.</p>
+	{% endif %}
+	<br>
+{% endif %}
+
+
+{% for field in form.visible_fields %}
+	<div class="form-group {% if field.errors %} has-error {% endif %}">
+    	<label class="control-label {% if field.field.required %}required{% endif %}"
+    		for="id_{{ field.name }}">{{ field.label }}:</label>
+    	
+    	{% if field.errors %}
+		<div class="form-errors">
+    		{{ field.errors }}
+		</div>
+    	{% endif %}
+    	<input type="{{  field|html_fieldtype }}" class="form-control"
+    		id="id_{{ field.name }}" name="{{ field.name }}"
+    		{% if field.value %}
+    			{% if field|html_fieldtype != 'date' %}
+    				value="{{ field.value }}"
+				{% else %}
+					value="{{ field.value|date:'c' }}"
+    			{% endif %}
+    		{% endif %}">
+
+    	{% if field.help_text %}
+    		<p class="help-text">{{ field.help_text }}</p>
+		{% endif %}
+    </div>
+{% endfor %}
+
+<br>
+<div class="text-right">
+	<button type="submit" class="btn btn-primary">
+		{% if submit_text %}
+			{{ submit_text }}
+		{% else %}
+			Submit
+		{% endif %}
+	</button>
+</div>

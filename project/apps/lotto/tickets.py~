@@ -7,16 +7,16 @@ from project.apps.lotto.models import Ticket
 
 def check_tickets_numbers(win_numbers, date=None, ignore_checked=False):
     ''' Checks if any of the tickets that are in the system has the winning
-        combination of numbers, send emails to the winning users and updates the
+        combination of numbers. Sends also emails to the winning users and updates the
         tickets automatically.
         
         Arguments:
-            win_mumbers - List of 6 winning numbers.
+            win_numbers - List of 6 winning numbers.
             date - date of the winning ticket, default - today.
             ignore_checked - for debugging. If True, will check already
                 checked tickets and send emails in case of victory again.
     '''
-    print('Winning numbers: %s' % str(win_numbers))
+    print('Gewinnzahlen: %s' % str(win_numbers))
     if not date:
         date = datetime.now().date()
         

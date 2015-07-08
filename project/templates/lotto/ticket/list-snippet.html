@@ -1,0 +1,69 @@
+{% if ajax %}
+	<strong>Lottoscheine wurden überprüft:</strong>
+	<!--<ul>
+		<li>Your winning tickets: {{ user_wins }}</li>
+		<li>Anzahl Lottoschein mit Gewinn: {{ win_tickets }}</li>
+	</ul>-->
+	<br>
+{% endif %}
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th class="text-center">
+				<span class="glyphicon glyphicon-ok" title="Anzahl der Gewinnzahlen"></span>
+			</th>
+			<th class="text-center">Ziehung</th>
+			<th class="text-center">N-1</th>
+			<th class="text-center">N-2</th>
+			<th class="text-center">N-3</th>
+			<th class="text-center">N-4</th>
+			<th class="text-center">N-5</th>
+			<th class="text-center">N-6</th>
+			<th class="text-center">Aktion</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for ticket in tickets %}
+		<tr class="text-center
+			{% if ticket.win %}
+				success
+			{% endif %}
+			{% if ticket.is_outdated %}
+				disabled-text
+			{% endif %}
+			{% if ticket.is_today %}bold{% endif %}
+		">
+			<td>
+				{% if ticket.win %}
+					{{ ticket.win }}
+				{% elif ticket.checked %}
+					<span class="glyphicon glyphicon-remove"></span>
+				{% endif %}
+			</td>
+			<td>{{ ticket.date }}</td>
+			<td class="text-center">{{ ticket.n1 }}</td>
+			<td>{{ ticket.n2 }}</td>
+			<td>{{ ticket.n3 }}</td>
+			<td>{{ ticket.n4 }}</td>
+			<td>{{ ticket.n5 }}</td>
+			<td>{{ ticket.n6 }}</td>
+			<td>
+				<a href="{% url 'lotto:ticket_delete' ticket.id %}"
+					><span class="glyphicon glyphicon-remove glyphicon-delete-command" title="Löschen"></span></a>
+				{% if not ticket.is_outdated %}
+					&nbsp;
+					<a href="{% url 'lotto:ticket_edit' ticket.id %}"
+						><span class="glyphicon glyphicon-pencil glyphicon-edit-command" title="Ändern"></span></a>
+				{% endif %}
+			</td>
+		<tr>
+	{% empty %}
+		<tr class="text-center">
+			<td colspan="9">
+				Nichts anzuzeigen.
+			</td>
+		<tr>
+	{% endfor %}
+	</tbody>
+</table>

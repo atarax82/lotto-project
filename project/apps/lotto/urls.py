@@ -18,5 +18,9 @@ urlpatterns = patterns('project.apps.lotto.views',
     url(r'^ticket/list-upcoming$', 'ticket_list_upcoming',
         name='ticket_list_upcoming'),
     url(r'^ticket/check$', 'ticket_check', name='ticket_check'),
+    
+    #ajax
+    url(r'^ticket/ajax/check$', 'ticket_ajax_check', name='ticket_ajax_check'),
+    
 ) + staticfiles_urlpatterns()
 

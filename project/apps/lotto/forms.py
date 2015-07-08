@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Ticket
 
 class TicketForm(forms.ModelForm):
-    ''' Model from for ticket data. '''
+    ''' Model for ticket data. '''
     
     class Meta:
         model = Ticket
@@ -15,7 +15,9 @@ class TicketForm(forms.ModelForm):
         
 
 class UserCreateForm(UserCreationForm):
-    ''' Extending the default Django form for registration by adding an email field'''
+    ''' We extend default Django form for registration and add an email field to
+        it.
+    '''
     email = forms.EmailField(required=False)
     
     class Meta:

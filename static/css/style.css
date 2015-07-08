@@ -4,6 +4,11 @@
 .bold {
 	font-weight: bold;
 }
+.loading-text {
+	text-align: center;
+	font-size: larger;
+	font-weight: bold;
+}
 
 .glyphicon-delete-command {
 	color: red;

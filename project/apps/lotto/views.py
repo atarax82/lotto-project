@@ -27,7 +27,7 @@ def register(request):
         form = UserCreateForm(request.POST)
         if form.is_valid():
             form.save() # creates new records in the DB
-            # authentication of the user
+            # authenticating user
             username = request.POST['username']
             password = request.POST['password1']
             user = authenticate(username=username, password=password)
@@ -35,12 +35,11 @@ def register(request):
             messages.add_message(request, messages.SUCCESS,
                 'Successful regisration.')
             if user.email:
-                # in order to intercept some error that won't be
-                # handeled
+                # can be some error that we don't what to handle
                 # (like email is not an email)
                 try: 
-                    mail.send(user.email, 'Registration at Lottochecker',
-                        'You were registered to the Lottochecker service')
+                    mail.send(user.email, 'Registrierung bei Lottochecker.',
+                        'Sie wurden bei Lottochecker registriert..')
                 except:
                     pass
             return HttpResponseRedirect(reverse('lotto:index'))
@@ -69,17 +68,16 @@ def user_login(request):
             login(request, user)
             
             if user.email:
-                # in order to intercept some error that won't be
-                # handeled
+                # can be some error that we don't what to handle
                 # (like email is not an email)
                 try: 
-                    mail.send(user.email, 'Login to the LOTTO site.',
-                        'There was a login to the LOTTO site with '
-                                'your account.')
+                    mail.send(user.email, 'Anmeldung bei Lottochecker.',
+                        'Ein Login wurde bei Lottochecker mit Ihrem'
+                                'Konto durchgefuehrt.')
                 except:
                     pass
             
-            messages.add_message(request, messages.SUCCESS, 'Logged in.')
+            messages.add_message(request, messages.SUCCESS, 'Angemeldet')
             return HttpResponseRedirect(reverse('lotto:ticket_list_upcoming'))
         else:
             pass
@@ -91,7 +89,7 @@ def user_login(request):
     
     return render(request, 'form-page.html', {
         'form': form,
-        'form_title': 'Login',
+        'form_title': 'Anmeldung',
     })
 
 
@@ -99,7 +97,7 @@ def user_logout(request):
     # if not logged in just redirect to the main page
     if request.user.is_authenticated():
         logout(request)
-        messages.add_message(request, messages.SUCCESS, 'Logged out.')
+        messages.add_message(request, messages.SUCCESS, 'Abgemeldet')
     return HttpResponseRedirect(reverse('lotto:index'))
 
 
@@ -112,7 +110,7 @@ def ticket_create(request):
             ticket.user = request.user
             ticket.save()
             messages.add_message(request, messages.SUCCESS,
-                'New ticket created.')
+                'Neuer Schein erstellt')
             return HttpResponseRedirect(reverse('lotto:ticket_list'))
         else:
             pass
@@ -122,9 +120,9 @@ def ticket_create(request):
         form = TicketForm()
         
     return render(request, 'form-page.html', {
-        'form_title': 'Create new ticket',
+        'form_title': 'Neuen Schein erstellen',
         'form': form,
-        'form_text': 'Enter date and numbers for your new lottery ticket.'
+        'form_text': 'Bitte geben Sie Ziehungsdatum und Tippzahlen ein:'
     })
 
 
@@ -168,7 +166,7 @@ def ticket_list(request, upcoming=False):
     if upcoming:
         tickets = tickets.filter(date__gte=datetime.now().date())
     
-    return render(request, 'lotto/ticket/list.html', {
+    return render(request, 'lotto/ticket/list-page.html', {
         'tickets': tickets,
         'upcoming': upcoming,
     })
@@ -180,7 +178,35 @@ def ticket_list_upcoming(request):
 
 @login_required
 def ticket_check(request):
-    ''' Calls the ticket_check function, for debugging purposes. '''
+    ''' Just calls ticket_check function, used for for debugging purposes. '''
     tickets_util.check_tickets()
     messages.add_message(request, messages.INFO, 'Tickets checked.')
     return ticket_list(request)
+
+
+@login_required
+def ticket_ajax_check(request):
+    ''' Checking tickets with ajax '''
+    win_tickets = tickets_util.check_tickets()
+    user_wins = [t for t in win_tickets if t.user.id == request.user.id]
+    
+    upcoming = request.GET.get('upcoming', 'false') != 'false'
+    
+    tickets = Ticket.objects.filter(user=request.user)
+    if upcoming:
+        tickets = tickets.filter(date__gte=datetime.now().date())
+        
+    return render(request, 'lotto/ticket/list-snippet.html', {
+        'tickets': tickets,
+        'upcoming': upcoming,
+        'ajax': True,
+        'win_tickets': len(win_tickets),
+        'user_wins': len(user_wins),
+    });
+    
+
+
+
+
+
+

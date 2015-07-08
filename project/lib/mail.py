@@ -2,6 +2,9 @@ import smtplib
 from django.conf import settings
 
 def send(to, subject, text):
+    if not settings.EMAIL_SERVER:
+        return
+    
     if not isinstance(to, (list, tuple)):
         to = [to]
     

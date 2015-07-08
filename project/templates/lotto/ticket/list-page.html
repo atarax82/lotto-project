@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+	{{ block.super }} |
+	{% if upcoming %}
+		Offene Scheine
+	{% else %}
+		Gesamtliste
+	{% endif %}
+{% endblock %}
+
+
+{% block js %}
+	{{ block.super }}
+	<script src="/static/lotto/js/list-page.js"></script>
+	<script>
+		var upcoming = {% if upcoming %}true{% else %}false{% endif %};
+	</script>
+{% endblock %}
+
+
+{% block content %}
+
+{% if upcoming %}
+	<h1>Offene Scheine</h1>
+	<p>Liste offener Lottoscheine.</p>
+{% else %}
+	<h1>Gesamtliste</h1>
+	<p>Liste aller Lottoscheine.</p>
+{% endif %}
+<br>
+
+<div class="col-md-10 col-md-offset-1">
+	<div id="ticket-list-wrapper">
+		{% include 'lotto/ticket/list-snippet.html' %}
+	</div>
+	
+	<br>
+	<div class="text-right">
+		<input type="button" value="Jetzt überprüfen" class="btn btn-success"
+			id="check-tickets">
+	</div>
+</div>
+{% endblock %}

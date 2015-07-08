@@ -16,7 +16,7 @@ def check_tickets_numbers(win_numbers, date=None, ignore_checked=False):
             ignore_checked - for debugging. If True, will check already
                 checked tickets and send emails in case of victory again.
     '''
-    print('Winning numbers: %s' % str(win_numbers))
+    print('Gewinnzahlen: %s' % str(win_numbers))
     if not date:
         date = datetime.now().date()
         

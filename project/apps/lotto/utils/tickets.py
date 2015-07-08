@@ -1,7 +1,7 @@
 import re
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from datetime import datetime
+from datetime import datetime, date
 from project.apps.lotto.models import Ticket
 
 
@@ -23,9 +23,13 @@ def check_tickets_numbers(win_numbers, date=None, ignore_checked=False):
     tickets = Ticket.objects.filter(date=date)
     if not ignore_checked:
         tickets = tickets.filter(checked=False)
-        
+    
+    win_tickets = []
     for ticket in tickets:
-        ticket.check_numbers(win_numbers)
+        if ticket.check_numbers(win_numbers):
+            win_tickets.append(ticket)
+    
+    return win_tickets
         
 
 def check_tickets():
@@ -37,6 +41,10 @@ def check_tickets():
             executable_path="/root/phantom/phantomjs-2.0.0/bin/phantomjs")
         driver.get(url)
         soup = BeautifulSoup(driver.page_source,"html5lib")
+        d = soup.find('div', {'class': 'zq_select'}).findAll('select')[1] \
+            .find('option').text.split(',')[-1].strip();
+        d = date(int(d[-4:]), int(d[3:5]), int(d[:2])) 
+        
         for ul in soup.findAll("div", {"class": "balls"}):
             for i in re.findall(r'(?<=zahl\([1-6]\)">)\d{1,2}|(?<="last">)\d',
                     str(ul)):
@@ -47,5 +55,5 @@ def check_tickets():
         except:
             pass
     
-    return check_tickets_numbers(current_6of49, ignore_checked=True)
+    return check_tickets_numbers(current_6of49, ignore_checked=False, date=d)
 

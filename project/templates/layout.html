@@ -31,36 +31,36 @@
 	                <span class="icon-bar"></span>
 	                <span class="icon-bar"></span>
 	            </button>
-	            <a class="navbar-brand" href="/">LOTTO</a>
+	            <a class="navbar-brand" href="/">Lottochecker</a>
 	        </div>
 	
 	        <!-- Collect the nav links, forms, and other content for toggling -->
 	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	            <ul class="nav navbar-nav">
-	                <li><a href="/">Home page</a></li>
+	                <li><a href="/">Start</a></li>
 	                	<!-- Action menu -->
 		                <li class="dropdown">
-	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></a>
+	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Aktion<span class="caret"></span></a>
 	                    <ul class="dropdown-menu">
 	                    	{% if request.user.is_authenticated %}
-		                        <li><a href="{% url 'lotto:ticket_create' %}">Create new lottery ticket</a></li>
+		                        <li><a href="{% url 'lotto:ticket_create' %}">Neuen Lottoschein anlegen</a></li>
 		                        <li role="separator" class="divider"></li>
-		                        <li><a href="{% url 'lotto:ticket_list_upcoming' %}">View upcoming lottery tickets</a></li>
-		                        <li><a href="{% url 'lotto:ticket_list' %}">View all lottery tickets</a></li>
+		                        <li><a href="{% url 'lotto:ticket_list_upcoming' %}">Zeige offene Lottoscheine</a></li>
+		                        <li><a href="{% url 'lotto:ticket_list' %}">Zeige alle Lottoscheine</a></li>
 	                        {% else %}
-	                        	<li class="disabled"><a href="#">No available actions</a></li>
+	                        	<li class="disabled"><a href="#">Nicht verfügbar</a></li>
 	                        {% endif %}
 	                    </ul>
 	                </li>
 	            </ul>
 	            
 	            <ul class="nav navbar-nav navbar-right">
-	                <li><p class="navbar-text" title="Logged in as:...">Logged in as:
+	                <li><p class="navbar-text" title="Logged in as:...">Angemeldet als:
 	                	<strong>
 	                	{% if request.user.is_authenticated %}
 	                		{{ request.user.username }}
                 		{% else %}
-                			Guest
+                			Gast
             			{% endif %}
                 		</strong>
                 	</p></li>
@@ -68,11 +68,11 @@
 	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
 	                    <ul class="dropdown-menu">
 	                    	{% if request.user.is_authenticated %}
-	                    		<li><a href="{% url 'lotto:logout' %}">Logout</a></li>
+	                    		<li><a href="{% url 'lotto:logout' %}">Abmelden</a></li>
 	                    	{% else %}
-		                        <li><a href="{% url 'lotto:login' %}">Login</a></li>
+		                        <li><a href="{% url 'lotto:login' %}">Anmelden</a></li>
 		                        <li role="separator" class="divider"></li>
-		                        <li><a href="{% url 'lotto:register' %}">Register</a></li>
+		                        <li><a href="{% url 'lotto:register' %}">Registrieren</a></li>
 	                        {% endif %}
 	                    </ul>
 	                </li>

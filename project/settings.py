@@ -107,7 +107,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
-EMAIL_SERVER = 'smtp.some-server.com'
+EMAIL_SERVER = False#'smtp.some-server.com'
 EMAIL_FROM = 'from@some-server.com'
 EMAIL_FROM_PASSWORD = 'password for the email'
 

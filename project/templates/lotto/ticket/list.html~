@@ -27,7 +27,7 @@
 				<th class="text-center">
 					<span class="glyphicon glyphicon-ok" title="Anzahl der Gewinnzahlen"></span>
 				</th>
-				<th class="text-center">Ziehung</th>
+				<th class="text-center">Datum</th>
 				<th class="text-center">N-1</th>
 				<th class="text-center">N-2</th>
 				<th class="text-center">N-3</th>
